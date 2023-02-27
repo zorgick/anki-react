@@ -1,7 +1,36 @@
-import "./App.css";
+import { useState, useLayoutEffect, useEffect } from "react";
 
-function App() {
-  return <div className="App"></div>;
+export default function App() {
+  const [count, setCount] = useState(0);
+  const [flag, setFlag] = useState(false);
+
+  function handleClick() {
+    console.log("=== click ===");
+    setCount((c) => c + 1);
+    setFlag((f) => !f);
+  }
+
+  return (
+    <div>
+      <button onClick={handleClick}>Next</button>
+      <h1 style={{ color: flag ? "blue" : "black" }}>{count}</h1>
+      <LogEvents count={count}/>
+    </div>
+  );
 }
 
-export default App;
+function LogEvents(props) {
+
+useEffect(() => {
+  console.log("setup", props.count);
+
+  return () => {
+    console.log("cleanup", props.count)
+  }
+});
+  useLayoutEffect(() => {
+    console.log("Commit");
+  });
+  console.log("Render");
+  return null;
+}
